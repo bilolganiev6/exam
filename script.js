@@ -1,43 +1,49 @@
+// Класс для представления отдела
 class Department {
     constructor(id, name, manager, phone, volume) {
-        this.id = id;
-        this.name = name;
-        this.manager = manager;
-        this.phone = phone;
-        this.volume = volume;
+        this.id = id; // Уникальный идентификатор отдела
+        this.name = name; // Наименование отдела
+        this.manager = manager; // Ф.И.О. заведующего отделом
+        this.phone = phone; // Телефон отдела
+        this.volume = volume; // Объем реализации в день (руб.)
     }
 }
 
+// Класс для представления товара
 class Product {
     constructor(code, name, unit, price) {
-        this.code = code;
-        this.name = name;
-        this.unit = unit;
-        this.price = price;
+        this.code = code; // Артикул товара
+        this.name = name; // Наименование товара
+        this.unit = unit; // Единица измерения товара
+        this.price = price; // Розничная цена товара (руб.)
     }
 }
 
+// Класс для представления продажи
 class Sale {
     constructor(id, productCode, date, quantity) {
-        this.id = id;
-        this.productCode = productCode;
-        this.date = date;
-        this.quantity = quantity;
+        this.id = id; // Уникальный идентификатор продажи
+        this.productCode = productCode; // Артикул товара
+        this.date = date; // Дата продажи
+        this.quantity = quantity; // Количество проданного товара
     }
 }
 
+// Загрузка данных из localStorage или инициализация пустыми массивами
 let departments = JSON.parse(localStorage.getItem('departments')) || [];
 let products = JSON.parse(localStorage.getItem('products')) || [];
 let sales = JSON.parse(localStorage.getItem('sales')) || [];
 
+// Функция для сохранения данных в localStorage
 function saveData() {
     localStorage.setItem('departments', JSON.stringify(departments));
     localStorage.setItem('products', JSON.stringify(products));
     localStorage.setItem('sales', JSON.stringify(sales));
 }
 
+// Функция для добавления нового отдела
 function addDepartment() {
-    const id = Date.now();
+    const id = Date.now(); // Генерация уникального ID на основе текущего времени
     const name = prompt("Наименование отдела:");
     const manager = prompt("Ф.И.О. заведующего:");
     const phone = prompt("Телефон:");
@@ -50,6 +56,7 @@ function addDepartment() {
     }
 }
 
+// Функция для обновления данных отдела
 function updateDepartment() {
     const id = parseInt(prompt("ID отдела для обновления:"), 10);
     const department = departments.find(d => d.id === id);
@@ -63,6 +70,7 @@ function updateDepartment() {
     }
 }
 
+// Функция для удаления отдела
 function deleteDepartment() {
     const id = parseInt(prompt("ID отдела для удаления:"), 10);
     departments = departments.filter(d => d.id !== id);
@@ -70,6 +78,7 @@ function deleteDepartment() {
     loadDepartments();
 }
 
+// Функция для добавления нового товара
 function addProduct() {
     const code = prompt("Артикул товара:");
     const name = prompt("Наименование товара:");
@@ -83,6 +92,7 @@ function addProduct() {
     }
 }
 
+// Функция для обновления данных товара
 function updateProduct() {
     const code = prompt("Артикул товара для обновления:");
     const product = products.find(p => p.code === code);
@@ -95,6 +105,7 @@ function updateProduct() {
     }
 }
 
+// Функция для удаления товара
 function deleteProduct() {
     const code = prompt("Артикул товара для удаления:");
     products = products.filter(p => p.code !== code);
@@ -102,8 +113,9 @@ function deleteProduct() {
     loadProducts();
 }
 
+// Функция для добавления новой продажи
 function addSale() {
-    const id = Date.now();
+    const id = Date.now(); // Генерация уникального ID на основе текущего времени
     const productCode = prompt("Артикул товара:");
     const date = prompt("Дата продажи (гггг-мм-дд):");
     const quantity = parseInt(prompt("Количество проданного товара:"), 10);
@@ -115,6 +127,7 @@ function addSale() {
     }
 }
 
+// Функция для обновления данных продажи
 function updateSale() {
     const id = parseInt(prompt("ID продажи для обновления:"), 10);
     const sale = sales.find(s => s.id === id);
@@ -127,6 +140,7 @@ function updateSale() {
     }
 }
 
+// Функция для удаления продажи
 function deleteSale() {
     const id = parseInt(prompt("ID продажи для удаления:"), 10);
     sales = sales.filter(s => s.id !== id);
@@ -134,21 +148,25 @@ function deleteSale() {
     loadSales();
 }
 
+// Функция для загрузки и отображения данных отделов
 function loadDepartments() {
     const container = document.getElementById('departments');
     container.innerHTML = '<ul>' + departments.map(d => `<li>${d.id} - ${d.name} - ${d.manager} - ${d.phone} - ${d.volume} руб.</li>`).join('') + '</ul>';
 }
 
+// Функция для загрузки и отображения данных товаров
 function loadProducts() {
     const container = document.getElementById('products');
     container.innerHTML = '<ul>' + products.map(p => `<li>${p.code} - ${p.name} - ${p.unit} - ${p.price} руб.</li>`).join('') + '</ul>';
 }
 
+// Функция для загрузки и отображения данных продаж
 function loadSales() {
     const container = document.getElementById('sales');
     container.innerHTML = '<ul>' + sales.map(s => `<li>${s.id} - ${s.productCode} - ${s.date} - ${s.quantity}</li>`).join('') + '</ul>';
 }
 
+// Обработчик события загрузки DOM для инициализации данных
 document.addEventListener('DOMContentLoaded', () => {
     loadDepartments();
     loadProducts();
